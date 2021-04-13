@@ -1,0 +1,39 @@
+grammar org.osarenogae.fta.FaultTree with org.eclipse.xtext.common.Terminals
+
+generate faultTree "http://www.osarenogae.org/fta/FaultTree"
+
+FaultTreeModel: 
+	faultTree += root;
+	
+ root:
+ 	(IntermediateEventDefinition)? 'root' fault += Tree
+;
+
+IntermediateEventDefinition: 
+	name = [IntermediateEvent] (description = STRING)? '=' value = Tree
+;
+
+Tree: Event | OrGate | AndGate | InhibitGate;
+
+OrGate returns Tree:
+	left = AndGate 'or' right = AndGate
+;
+
+AndGate returns Tree:
+	left = InhibitGate 'and' right = InhibitGate
+;
+
+InhibitGate returns Tree:
+	left = Event 'inhibit' right = ConditionalEvent
+;
+
+Event returns Tree:
+	BasicEvent | ExternalEvent | ConditionalEvent | IntermediateEvent
+;
+
+IntermediateEvent: 'intermediate' name = ID;
+BasicEvent: 'basic' name = ID (description = STRING)?;
+ConditionalEvent: 'conditional' name = ID (description = STRING)?;
+ExternalEvent: 'external' name = ID (description = STRING)?;
+
+
