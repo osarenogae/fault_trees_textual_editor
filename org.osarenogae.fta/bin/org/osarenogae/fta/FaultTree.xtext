@@ -3,19 +3,21 @@ grammar org.osarenogae.fta.FaultTree with org.eclipse.xtext.common.Terminals
 generate faultTree "http://www.osarenogae.org/fta/FaultTree"
 
 FaultTreeModel: 
-	faultTree += root;
+	faultTree += root; //the root element which holds the entire fault tree 
+
 	
  root:
- 	(IntermediateEventDefinition)? 'root' fault += Tree
-;
+ 	(IntermediateEventDefinition)? 'root' fault = Tree // the first  rule requiring the root keyword an optional
+;                                                      // intermediate event definition.
 
 IntermediateEventDefinition: 
-	name = [IntermediateEvent] (description = STRING)? '=' value = Tree
-;
+	name = [IntermediateEvent] (description = STRING)? '=' value = Tree // the identifier of an existing intermediate
+;                                                                       // event is cross-referenced in an intermediate event definition
 
 Tree: Event | OrGate | AndGate | InhibitGate;
 
-OrGate returns Tree:
+
+OrGate returns Tree:                    // using operator precedence to solve the problem of left recursion
 	left = AndGate 'or' right = AndGate
 ;
 
