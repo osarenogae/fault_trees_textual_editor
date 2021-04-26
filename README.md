@@ -1,3 +1,3 @@
 # fault_trees_textual_editor
 
-This textual editor has been created for the purpose of fulfilling the exercise provided by the Computer Science department of the University of York as an interview for the Post of a Software Engineer. All files in this repository represents solely the  work done by the author, Osarenogae Ogieva.
+This repository has been created to provide the code needed for creating a textual editor for simple fault trees using Xtext and Eclipse IDE. The textual editor is generated from an Xtext project which specifies the grammar that defines the rules of creating a fault tree. There is a precedence defined for Events, Or Gate, And Gate and Inhibit Gate, in that order. Left recursion is sorted in the definition by manually setting this operator precedence. The rule with less precedence is written in terms of the rule with the higher precedence
